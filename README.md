@@ -176,7 +176,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🐛 Issues
 
-If you encounter any issues or have suggestions for improvements, please [create an issue](https://github.com/yourusername/todo-manager/issues) on GitHub.
+If you encounter any issues or have suggestions for improvements, please [create an issue](https://github.com/hussainbinfazal/todo-manager/issues) on GitHub.
 
 ## ⭐ Show Your Support
 
