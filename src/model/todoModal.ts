@@ -1,10 +1,10 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-
 export interface ITodo extends Document {
-    todo: string;
-    isCompleted: boolean;
-    isUpdated?:boolean;
+  readonly _id: string;
+  todo: string;
+  isCompleted: boolean;
+  isUpdated?: boolean;
 }
 const todoSchema = new Schema<ITodo>({
   todo: {
@@ -17,12 +17,10 @@ const todoSchema = new Schema<ITodo>({
   },
   isUpdated: {
     type: Boolean,
-    required: true,
   },
 });
 
 const Todo = mongoose.models.Todo || mongoose.model<ITodo>("Todo", todoSchema);
-
 
 export { Todo, todoSchema };
 export default Todo;

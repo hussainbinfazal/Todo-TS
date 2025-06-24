@@ -1,12 +1,20 @@
 import { NextResponse, NextRequest } from "next/server";
 import Todo from "@/model/todoModal";
-import { get } from "http";
+import { connectDB } from "@/config/db";
+interface ITodo {
+  readonly _id: string;
+  todo: string;
+  isCompleted: boolean;
+  isUpdated?: boolean;
+}
 export async function GET(request: NextRequest): Promise<NextResponse> {
+  await connectDB();
   try {
-    const getTodos = await Todo.find();
+    const allTodos= await Todo.find(  );
+
     return NextResponse.json({
       message: "Hello World",
-      getTodos,
+      allTodos,
     });
   } catch (error: unknown) {
     console.log(error);
@@ -15,9 +23,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  await connectDB();
   try {
     const body = await request.json();
     const newTodo = await Todo.create(body);
+
     return NextResponse.json({
       message: "Todo created successfully",
       newTodo,
@@ -28,16 +38,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 }
 export async function PUT(request: NextRequest): Promise<NextResponse> {
+  await connectDB();
   try {
     const body = await request.json();
     const todoInDB = await Todo.findById(body._id);
     todoInDB.todo = body.todo;
     todoInDB.isCompleted = body.isCompleted;
     todoInDB.isUpdated = body.isUpdated;
-    const newTodo = await todoInDB.save();
+    const updatedTodo = await todoInDB.save();
     return NextResponse.json({
       message: "Todo created successfully",
-      newTodo,
+      updatedTodo,
     });
   } catch (error: unknown) {
     console.log(error);
@@ -45,13 +56,17 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
   }
 }
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  await connectDB();
   try {
     const body = await request.json();
     const todoInDB = await Todo.findByIdAndDelete(body._id);
-    
-    return NextResponse.json({
-      message: "Todo deleted successfully",
-    },{status:201});
+
+    return NextResponse.json(
+      {
+        message: "Todo deleted successfully",
+      },
+      { status: 201 }
+    );
   } catch (error: unknown) {
     console.log(error);
     return NextResponse.json({ message: "Error" });
